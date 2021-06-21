@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Sign Up Form</title>
+  <style media="screen">
+    /* Set the size of the div element that contains the map */
+    #map {
+      height: 400px;
+      /* The height is 400 pixels */
+      width: 100%;
+      /* The width is the width of the web page */
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <form class="signUp" method="post">
+    <!-- Address -->
+    <label for="address">Address:</label><br>
+    <input type="text" id="address" name="address" required><br>
+    <input type="text" id="address2" name="address2"><br><br>
+
+    <!-- City -->
+    <label for="city">City</label><br>
+    <input type="text" id="city" name="city" required><br><br>
+
+    <!-- State -->
+    <label for="state">State:</label><br>
+    <input type="text" id="state" name="state" required><br><br>
+
+    <!-- Country -->
+    <label for="country">Country</label><br>
+    <input type="text" id="country" name="country" required><br><br>
+
+    <input type="submit">
+    <br><br>
+  </form>
+
+  <h3>My Google Maps Demo</h3>
+  <!--The div element for the map -->
+  <div id="map"></div>
+
+  <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBx4ltosNbZp1LJpD11PrNb-GKAeG2yuEg&callback=initMap&libraries=&v=weekly" async></script>
+
+  <script type="text/javascript">
+    //Global variables for submiti function
+    let geocoder, map, marker;
+    // Initialize and add the map
+    function initMap() {
+      //Latitude/longitude of map starting point
+      const mapStart = {
+        lat: 37.090240,
+        lng: -95.712891
+      };
+      // The map, centered at Uluru
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: mapStart,
+        styles: mapStyles,
+      });
+      // The marker, positioned at the starting point & custom marker
+      marker = new google.maps.Marker({
+        position: mapStart,
+        map: map,
+        icon: 'pin-test.png',
+      });
+      geocoder = new google.maps.Geocoder();
+    }
+
+    // Style the map
+    mapStyles = [{
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#1d2c4d"
+        }]
+      },
+      {
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#8ec3b9"
+        }]
+      },
+      {
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+          "color": "#1a3646"
+        }]
+      },
+      {
+        "featureType": "administrative.country",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+          "color": "#4b6878"
+        }]
+      },
+      {
+        "featureType": "administrative.land_parcel",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "administrative.land_parcel",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#64779e"
+        }]
+      },
+      {
+        "featureType": "administrative.neighborhood",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "administrative.province",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+          "color": "#4b6878"
+        }]
+      },
+      {
+        "featureType": "landscape.man_made",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+          "color": "#334e87"
+        }]
+      },
+      {
+        "featureType": "landscape.natural",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#023e58"
+        }]
+      },
+      {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#283d6a"
+        }]
+      },
+      {
+        "featureType": "poi",
+        "elementType": "labels.text",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "poi",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#6f9ba5"
+        }]
+      },
+      {
+        "featureType": "poi",
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+          "color": "#1d2c4d"
+        }]
+      },
+      {
+        "featureType": "poi.business",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "poi.park",
+        "elementType": "geometry.fill",
+        "stylers": [{
+          "color": "#023e58"
+        }]
+      },
+      {
+        "featureType": "poi.park",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#3C7680"
+        }]
+      },
+      {
+        "featureType": "road",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#304a7d"
+        }]
+      },
+      {
+        "featureType": "road",
+        "elementType": "labels",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "road",
+        "elementType": "labels.icon",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "road",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#98a5be"
+        }]
+      },
+      {
+        "featureType": "road",
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+          "color": "#1d2c4d"
+        }]
+      },
+      {
+        "featureType": "road.arterial",
+        "elementType": "labels",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#2c6675"
+        }]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+          "color": "#255763"
+        }]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "labels",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#b0d5ce"
+        }]
+      },
+      {
+        "featureType": "road.highway",
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+          "color": "#023e58"
+        }]
+      },
+      {
+        "featureType": "road.local",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "transit",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "transit",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#98a5be"
+        }]
+      },
+      {
+        "featureType": "transit",
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+          "color": "#1d2c4d"
+        }]
+      },
+      {
+        "featureType": "transit.line",
+        "elementType": "geometry.fill",
+        "stylers": [{
+          "color": "#283d6a"
+        }]
+      },
+      {
+        "featureType": "transit.station",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#3a4762"
+        }]
+      },
+      {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#0e1626"
+        }]
+      },
+      {
+        "featureType": "water",
+        "elementType": "labels.text",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      },
+      {
+        "featureType": "water",
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "color": "#4e6d70"
+        }]
+      }
+    ]
+
+    // Geocode function
+    const address = document.getElementById("address").value;
+
+    function geocodeAddress(geocoder, resultsMap, address) {
+      geocoder.geocode({
+        address: address
+      }, (results, status) => {
+        if (status === "OK") {
+          resultsMap.setCenter(results[0].geometry.location);
+          new google.maps.Marker({
+            map: resultsMap,
+            position: results[0].geometry.location,
+            icon: 'pin-test.png',
+          });
+        } else {
+          alert("Geocode was not successful for the following reason: " + status);
+        }
+      });
+    }
+
+    // Animate map zoom after submitting address
+    function smoothZoom(map, max, cnt) {
+      if (cnt >= max) {
+        return;
+      } else {
+        z = google.maps.event.addListener(map, 'zoom_changed', function(event) {
+          google.maps.event.removeListener(z);
+          smoothZoom(map, max, cnt + 1);
+        });
+        setTimeout(function() {
+          map.setZoom(cnt)
+        }, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
+      }
+    }
+
+    //Handle form data on submit
+    $('form').submit(function(e) {
+      e.preventDefault();
+      //Get form data as array, uses numeric keys so need to convert to object
+      var myData = $(this).serializeArray();
+      //Convert array to object
+      var addressParts = {};
+      $(myData).each(function(index, obj) {
+        addressParts[obj.name] = obj.value;
+      });
+      //Take address object and output standard formatted address string for geocoding
+      var addressString;
+      addressString = addressParts.address + ", " + addressParts.city + ", " + addressParts.state + ", " + addressParts.country;
+      console.log(addressString);
+      //TODO: Do geocoding here
+      geocodeAddress(geocoder, map, addressString);
+      smoothZoom(map, 15, map.getZoom());
+    });
+  </script>
+</body>
+
+</html>
