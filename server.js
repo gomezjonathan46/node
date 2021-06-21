@@ -2,8 +2,13 @@ var http = require('http');
 var fs = require('fs');
 
 http.createServer(function (req, res) {
-  fs.readFile('public/address.html', function(err, data) {
+  fs.readFile('address.html', function(err, data) {
     res.writeHead(200, {'Content-Type': 'text/html'});
+    res.write(data);
+    return res.end();
+  });
+  fs.readFile('pin-test.png', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'image/png'});
     res.write(data);
     return res.end();
   });
